@@ -21,79 +21,103 @@ import javax.swing.JPanel;
  */
 public class Client extends JFrame {
 
-    /**
-     * Runs the client as an application.  First it displays a dialog
-     * box asking for the IP address or hostname of a host running
-     * the date server, then connects to it and displays the date that
-     * it serves.
-     */
-	
+	/**
+	 * Runs the client as an application. First it displays a dialog box asking for
+	 * the IP address or hostname of a host running the date server, then connects
+	 * to it and displays the date that it serves.
+	 */
+
 	private String server_address;
 	private Socket s;
 	private PrintWriter out;
-	
-    public static void main(String[] args) {    	
-    	EventQueue.invokeLater(() -> {
-            JFrame ex = new Client();
-            ex.setVisible(true);
-        });
-    }
-    
-    public Client() {
-    	server_address = JOptionPane.showInputDialog("What is the message you want to send?\n");
-    	
-    	try {
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(() -> {
+			JFrame ex = new Client();
+			ex.setVisible(true);
+		});
+	}
+
+	public Client() {
+		server_address = JOptionPane.showInputDialog("What is the message you want to send?\n");
+
+		try {
 			s = new Socket(server_address, 9090);
 			out = new PrintWriter(s.getOutputStream(), true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    	
-    	addKeyListener(new TAdapter());
-    	
-    	addWindowListener(new WindowAdapter() {
-    		@Override
-    		public void windowClosing(WindowEvent e) {
-    			try {
-    				System.out.println("Closed socket");
+
+		addKeyListener(new TAdapter());
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				try {
+					System.out.println("Closed socket");
 					s.close();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-    		}
-    	});
-    }
-    
-    private void sendMessage(String command) {
-	    out.println(command);
-    }
-    
-    private class TAdapter extends KeyAdapter {
+			}
+		});
+	}
 
-        @Override
-        public void keyPressed(KeyEvent e) {
+	private void sendMessage(String command) {
+		out.println(command);
+	}
 
-            int key = e.getKeyCode();
+	private class TAdapter extends KeyAdapter {
 
-            if (key == KeyEvent.VK_LEFT) {
-                sendMessage("left");
-            }
+		@Override
+		public void keyPressed(KeyEvent e) {
 
-            if (key == KeyEvent.VK_RIGHT) {
-                sendMessage("right");
-            }
+			int key = e.getKeyCode();
 
-            if (key == KeyEvent.VK_UP) {
-                sendMessage("up");
-            }
+			if (key == KeyEvent.VK_LEFT) {
+				sendMessage("lp");
+			}
 
-            if (key == KeyEvent.VK_DOWN) {
-                sendMessage("down");
-            }
-            
-            if (key == KeyEvent.VK_SPACE) {
-                sendMessage("space");
-            }
-        }
-    }
+			if (key == KeyEvent.VK_RIGHT) {
+				sendMessage("rp");
+			}
+
+			if (key == KeyEvent.VK_UP) {
+				sendMessage("up");
+			}
+
+			if (key == KeyEvent.VK_DOWN) {
+				sendMessage("dp");
+			}
+
+			if (key == KeyEvent.VK_SPACE) {
+				sendMessage("sp");
+			}
+		}
+
+		public void keyReleased(KeyEvent e) {
+
+			int key = e.getKeyCode();
+
+			if (key == KeyEvent.VK_LEFT) {
+				sendMessage("lr");
+			}
+
+			if (key == KeyEvent.VK_RIGHT) {
+				sendMessage("rr");
+			}
+
+			if (key == KeyEvent.VK_UP) {
+				sendMessage("ur");
+			}
+
+			if (key == KeyEvent.VK_DOWN) {
+				sendMessage("dr");
+			}
+
+			if (key == KeyEvent.VK_SPACE) {
+				sendMessage("sr");
+			}
+		}
+	}
 }

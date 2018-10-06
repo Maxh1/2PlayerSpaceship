@@ -96,16 +96,16 @@ public class SpaceShip extends Sprite {
 
 	public void sendCommand(String command) {
 
-		if (command.equals("space")) {
+		if (command.equals("sp")) {
 
 			fire();
 		}
 
-		if (command.equals("left")) {
+		if (command.equals("lp")) {
 			dx = -1;
 		}
 
-		if (command.equals("right")) {
+		if (command.equals("rp")) {
 			dx = 1;
 		}
 
@@ -113,8 +113,24 @@ public class SpaceShip extends Sprite {
 			dy = -1;
 		}
 
-		if (command.equals("down")) {
+		if (command.equals("dp")) {
 			dy = 1;
+		}
+
+		if (command.equals("lr")) {
+			dx = 0;
+		}
+
+		if (command.equals("rr")) {
+			dx = 0;
+		}
+
+		if (command.equals("ur")) {
+			dy = 0;
+		}
+
+		if (command.equals("dr")) {
+			dy = 0;
 		}
 	}
 }
