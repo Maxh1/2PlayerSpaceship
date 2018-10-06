@@ -19,6 +19,7 @@ import javax.swing.Timer;
 public class Board extends JPanel implements ActionListener {
 	private Timer timer;
 	private SpaceShip spaceship;
+	private SpaceShip spaceship1;
 	private List<Alien> aliens;
 	private boolean ingame;
 	private final int ICRAFT_X = 40;
@@ -28,9 +29,8 @@ public class Board extends JPanel implements ActionListener {
 	private final int DELAY = 15;
 
 	private final int[][] pos = { { 2380, 29 }, { 2500, 59 }, { 1380, 89 }, { 780, 109 }, { 580, 139 }, { 680, 239 },
-			{ 790, 259 }, { 760, 50 }, { 790, 150 }, { 980, 209 }, { 560, 45 }, { 510, 70 }, { 930, 159 }, { 590, 80 },
-			{ 530, 60 }, { 940, 59 }, { 990, 30 }, { 920, 200 }, { 900, 259 }, { 660, 50 }, { 540, 90 }, { 810, 220 },
-			{ 860, 20 }, { 740, 180 }, { 820, 128 }, { 490, 170 }, { 700, 30 } };
+			{ 790, 259 }, { 760, 50 } ,/* { 920, 200 }, { 900, 259 }, { 660, 50 }, { 540, 90 }, { 810, 220 },*/
+			/*{ 860, 20 }, { 740, 180 }, { 820, 128 }, { 490, 170 }, { 700, 30 }*/};
 
 	public Board() {
 
@@ -49,7 +49,7 @@ public class Board extends JPanel implements ActionListener {
 		setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
 
 		spaceship = new SpaceShip(ICRAFT_X, ICRAFT_Y);
-
+		spaceship1 = new SpaceShip(ICRAFT_X, ICRAFT_Y);
 		initAliens();
 
 		timer = new Timer(DELAY, this);
@@ -84,6 +84,17 @@ public class Board extends JPanel implements ActionListener {
 
 	private void drawObjects(Graphics g) {
 
+		if (spaceship1.isVisible()) {
+			g.drawImage(spaceship1.getImage(), spaceship1.getX(), spaceship1.getY(), this);
+		}
+
+		List<Missile> ms1 = spaceship1.getMissiles();
+
+		for (Missile missile : ms1) {
+			if (missile.isVisible()) {
+				g.drawImage(missile.getImage(), missile.getX(), missile.getY(), this);
+			}
+		}
 		if (spaceship.isVisible()) {
 			g.drawImage(spaceship.getImage(), spaceship.getX(), spaceship.getY(), this);
 		}
@@ -138,7 +149,7 @@ public class Board extends JPanel implements ActionListener {
 		updateMissiles();
 		updateAliens();
 
-		//checkCollisions();
+		checkCollisions();
 
 		repaint();
 	}
@@ -155,6 +166,10 @@ public class Board extends JPanel implements ActionListener {
 		if (spaceship.isVisible()) {
 
 			spaceship.move();
+		}
+		if (spaceship1.isVisible()) {
+
+			spaceship1.move();
 		}
 	}
 
@@ -256,7 +271,7 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 	public void sendCommand(String command) {
-		spaceship.sendCommand(command);
+		spaceship1.sendCommand(command);
 	}
 
 	private class TAdapter extends KeyAdapter {

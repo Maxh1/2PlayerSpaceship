@@ -11,6 +11,7 @@ public class Alien extends Sprite {
 		super(x, y);
 
 		initAlien();
+		
 	}
 
 	private void initAlien() {
